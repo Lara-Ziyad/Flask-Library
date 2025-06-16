@@ -41,16 +41,21 @@ def add_author():
 @app.route('/add_book', methods=['GET', 'POST'])
 def add_book():
     if request.method == 'POST':
+        
         title = request.form.get('title')
         author_id = request.form.get('author_id')
 
-        book = Book(
-            title = title,
-            author_id = int(author_id) if author_id else None
+        if not title:
+             flash("Title is required!")
+        else:
+             book = Book(
+             title = title,
+             author_id = int(author_id) if author_id else None
         )
-        db.session.add(book)
-        db.session.commit()
-        flash('Book added successfully!')
+      
+             db.session.add(book)
+             db.session.commit()
+             flash('Book added successfully!')
 
     authors = Author.query.all()
     return render_template('add_book.html', authors=authors)
