@@ -24,7 +24,7 @@
 
     <ul>
         {% for book in books %}
-            <li><strong>{{ book.title }}</strong> by {{ book.author.name }}</li>
+            <li><strong>{{ book.title }}</strong>{% if book.author %} by {{ book.author.name }}</li>
         {% endfor %}
     </ul>
 
