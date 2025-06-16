@@ -25,9 +25,9 @@ class Author(db.Model):
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
-
-    # Foreign key to Author table
     author_id = db.Column(db.Integer, db.ForeignKey('author.id'), nullable=True)
+    isbn = db.Column(db.String(20), nullable=True)  # ✅ NEW FIELD
+    cover_url = db.Column(db.String(300), nullable=True)
 
     def __repr__(self):
         return f"<Book {self.title}>"

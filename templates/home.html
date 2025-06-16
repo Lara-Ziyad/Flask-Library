@@ -6,12 +6,19 @@
     <form method="get" action="/">
         <input type="text" name="search" placeholder="Search by title..." value="{{ search_query }}">
         <input type="submit" value="Search">
-    </form>
+    </form><br><br>
 
-    <ul>
-         {% for book in books %}
-            <li><strong>{{ book.title }}</strong>{% if book.author %} by {{ book.author.name }}{% endif %}</li>
-        {% endfor %}
-    </ul>
+
+    {% for book in books %}
+    <div >
+    {% if book.cover_url %}
+        <strong>{{ book.title }}</strong>
+        <img src="{{ book.cover_url }}" alt="Cover of {{ book.title }}"
+             style="height: 10em; width: auto; vertical-align: middle; margin-left: 30px;">
+    {% endif %}
+
+    {% if book.author %} by {{ book.author.name }}{% endif %}
+   </div>
+    {% endfor %}
 
 {% endblock %}

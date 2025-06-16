@@ -2,7 +2,8 @@ from flask import Flask, render_template, request, flash
 from data_models import db, Author, Book
 import os
 from datetime import datetime
-
+import requests
+from requests.exceptions import RequestException 
 app = Flask(__name__)
 
 
@@ -15,7 +16,10 @@ app.secret_key = 'your_secret_key'  # For flash messages
 # Bind the app to the SQLAlchemy object
 db.init_app(app)
 
-# Route to add an author
+# Helper function to fetch cover
+def get_cover_url_from_isbn(isbn):
+    return f"https://covers.openlibrary.org/b/isbn/{isbn}-L.jpg"
+
 @app.route('/add_author', methods=['GET', 'POST'])
 def add_author():
     if request.method == 'POST':
@@ -41,24 +45,29 @@ def add_author():
 @app.route('/add_book', methods=['GET', 'POST'])
 def add_book():
     if request.method == 'POST':
-        
-        title = request.form.get('title')
+        title = request.form.get('title', '').strip()
         author_id = request.form.get('author_id')
+        isbn = request.form.get('isbn', '').strip()
 
         if not title:
-             flash("Title is required!")
+            flash("Title is required!")
         else:
-             book = Book(
-             title = title,
-             author_id = int(author_id) if author_id else None
-        )
-      
-             db.session.add(book)
-             db.session.commit()
-             flash('Book added successfully!')
+            cover_url = get_cover_url_from_isbn(isbn) if isbn else None
+
+            book = Book(
+                title=title,
+                author_id=int(author_id) if author_id else None,
+                isbn=isbn,
+                cover_url=cover_url
+            )
+            db.session.add(book)
+            db.session.commit()
+            flash('Book added successfully!')
 
     authors = Author.query.all()
     return render_template('add_book.html', authors=authors)
+
+
 
 # Route to search book
 @app.route('/', methods=['GET', 'POST'])
