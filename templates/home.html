@@ -10,11 +10,12 @@
 
 
     {% for book in books %}
-    <div >
+    <div ><br>
     {% if book.cover_url %}
-        <strong>{{ book.title }}</strong>
         <img src="{{ book.cover_url }}" alt="Cover of {{ book.title }}"
-             style="height: 10em; width: auto; vertical-align: middle; margin-left: 30px;">
+             style="height: 2em; width: auto; vertical-align: middle">
+        <strong>{{ book.title }}</strong>
+
     {% endif %}
 
     {% if book.author %} by {{ book.author.name }}{% endif %}
