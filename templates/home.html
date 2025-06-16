@@ -23,8 +23,8 @@
     {% endwith %}
 
     <ul>
-        {% for book in books %}
-            <li><strong>{{ book.title }}</strong>{% if book.author %} by {{ book.author.name }}</li>
+         {% for book in books %}
+            <li><strong>{{ book.title }}</strong>{% if book.author %} by {{ book.author.name }}{% endif %}</li>
         {% endfor %}
     </ul>
 
