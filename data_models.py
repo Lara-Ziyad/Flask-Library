@@ -24,12 +24,10 @@ class Author(db.Model):
 # Book model
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    isbn = db.Column(db.String(20), unique=True, nullable=False)
     title = db.Column(db.String(200), nullable=False)
-    publication_year = db.Column(db.Integer)
 
     # Foreign key to Author table
-    author_id = db.Column(db.Integer, db.ForeignKey('author.id'), nullable=False)
+    author_id = db.Column(db.Integer, db.ForeignKey('author.id'), nullable=True)
 
     def __repr__(self):
         return f"<Book {self.title}>"
