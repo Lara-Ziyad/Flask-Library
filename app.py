@@ -15,3 +15,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Bind the app to the SQLAlchemy object
 db.init_app(app)
+
+if __name__ == '__main__':
+    # Create tables
+    with app.app_context():
+        db.create_all()
