@@ -7,11 +7,11 @@ app = Flask(__name__)
 
 
 # Database config
-
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'data', 'library.sqlite')}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'your_secret_key'  # For flash messages
+
 # Bind the app to the SQLAlchemy object
 db.init_app(app)
 
@@ -24,8 +24,8 @@ def add_author():
         date_of_death_str = request.form.get('date_of_death')
 
         # Convert the form input strings to datetime.date
-        birth_date = datetime.strptime(birth_date_str, '%Y-%m-%d').date() if birth_date_str else None
-        date_of_death = datetime.strptime(date_of_death_str, '%Y-%m-%d').date() if date_of_death_str else None
+        birth_date = datetime.strptime(birth_date_str, '%m.%d.%Y').date() if birth_date_str else None
+        date_of_death = datetime.strptime(date_of_death_str, '%m.%d.%Y').date() if date_of_death_str else None
 
         author = Author(
             name=name,
@@ -35,10 +35,8 @@ def add_author():
         db.session.add(author)
         db.session.commit()
         flash('Author added successfully!')
-        return "Author added successfully", 201
 
-
-    return "Use POST to add an author", 200
+    return render_template('add_author.html')
 
 if __name__ == '__main__':
     # Create tables
