@@ -1,24 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Book</title>
-</head>
-<body>
-    <h1>Add a New Book</h1>
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+{% block content %}
+    <h1>Add a New Book</h1>
 
     <form method="POST">
         <label>Title:</label><br>
-        <input type="text" name="title" required><br><br>
+        <input type="text" name="title" ><br><br>
 
         <label>Author:</label><br>
         <select name="author_id">
@@ -33,6 +21,4 @@
 
     <a href="/">Back to Home</a>
 
-
-</body>
-</html>
+{% endblock %}

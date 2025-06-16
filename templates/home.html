@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Library Home</title>
-</head>
-<body>
-    <h1>Digital Library</h1>
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
 
+{% block content %}
     <!-- Search Form -->
     <form method="get" action="/">
         <input type="text" name="search" placeholder="Search by title..." value="{{ search_query }}">
@@ -28,5 +24,4 @@
         {% endfor %}
     </ul>
 
-</body>
-</html>
+{% endblock %}
