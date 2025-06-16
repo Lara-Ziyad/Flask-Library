@@ -63,14 +63,18 @@ def add_book():
 # Route to search book
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    search_query = request.args.get('search', '')
+    search_query = request.args.get('search', '').strip()
 
     if search_query:
         books = Book.query.filter(Book.title.ilike(f'%{search_query}%')).all()
         if not books:
-            flash('No books found matching your search.')
+            flash('No books found matching your search!')
+    elif request.args.get('search') is not None:
+            # This means the form was submitted but empty
+            flash('Please enter a search term!')
+            books = []
     else:
-        books = Book.query.all()
+            books = Book.query.all()
 
     return render_template('home.html', books=books, search_query=search_query)
 

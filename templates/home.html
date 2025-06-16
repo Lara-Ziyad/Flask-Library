@@ -8,16 +8,6 @@
         <input type="submit" value="Search">
     </form>
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-
     <ul>
          {% for book in books %}
             <li><strong>{{ book.title }}</strong>{% if book.author %} by {{ book.author.name }}{% endif %}</li>
