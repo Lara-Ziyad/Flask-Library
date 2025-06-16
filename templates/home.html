@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Library Home</title>
+</head>
+<body>
+    <h1>Digital Library</h1>
+
+    <!-- Search Form -->
+    <form method="get" action="/">
+        <input type="text" name="search" placeholder="Search by title..." value="{{ search_query }}">
+        <input type="submit" value="Search">
+    </form>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <ul>
+        {% for book in books %}
+            <li><strong>{{ book.title }}</strong> by {{ book.author.name }}</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

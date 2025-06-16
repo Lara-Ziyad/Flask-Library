@@ -38,6 +38,23 @@ def add_author():
 
     return render_template('add_author.html')
 
+
+# Route to search book
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    search_query = request.args.get('search', '')
+
+    if search_query:
+        books = Book.query.filter(Book.title.ilike(f'%{search_query}%')).all()
+        if not books:
+            flash('No books found matching your search.')
+    else:
+        books = Book.query.all()
+
+    return render_template('home.html', books=books, search_query=search_query)
+
+
+
 if __name__ == '__main__':
     # Create tables
     with app.app_context():
