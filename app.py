@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash
 from data_models import db, Author, Book
 import os
 from datetime import datetime
@@ -10,9 +10,8 @@ app = Flask(__name__)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'data', 'library.sqlite')}"
-
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+app.secret_key = 'your_secret_key'  # For flash messages
 # Bind the app to the SQLAlchemy object
 db.init_app(app)
 
@@ -35,7 +34,9 @@ def add_author():
         )
         db.session.add(author)
         db.session.commit()
+        flash('Author added successfully!')
         return "Author added successfully", 201
+
 
     return "Use POST to add an author", 200
 
