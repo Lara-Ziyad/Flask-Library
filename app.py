@@ -73,19 +73,29 @@ def add_book():
 @app.route('/', methods=['GET', 'POST'])
 def home():
     search_query = request.args.get('search', '').strip()
+    sort_option = request.args.get('sort', 'title')
 
-    if search_query:
-        books = Book.query.filter(Book.title.ilike(f'%{search_query}%')).all()
-        if not books:
-            flash('No books found matching your search!')
-    elif request.args.get('search') is not None:
-            # This means the form was submitted but empty
+    query = Book.query.outerjoin(Author)
+
+    # Apply search
+    if request.args.get('search') is not None:
+        if search_query:
+            query = query.filter(Book.title.ilike(f'%{search_query}%'))
+        else:
             flash('Please enter a search term!')
-            books = []
-    else:
-            books = Book.query.all()
 
-    return render_template('home.html', books=books, search_query=search_query)
+    # Apply sorting
+    if sort_option == 'author':
+        query = query.order_by(Author.name.asc())
+    else:
+        query = query.order_by(Book.title.asc())
+
+    books = query.all()
+
+    if search_query and not books:
+        flash('No books found matching your search!')
+
+    return render_template('home.html', books=books, search_query=search_query, sort_option=sort_option)
 
 
 

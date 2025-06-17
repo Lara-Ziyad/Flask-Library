@@ -6,20 +6,30 @@
     <form method="get" action="/">
         <input type="text" name="search" placeholder="Search by title..." value="{{ search_query }}">
         <input type="submit" value="Search">
+        <br><br>
+        <label>
+            <input type="radio" name="sort" value="title" {% if sort_option == 'title' %}checked{% endif %}>
+            Sort by Title
+        </label>
+        <label>
+            <input type="radio" name="sort" value="author" {% if sort_option == 'author' %}checked{% endif %}>
+            Sort by Author
+        </label>
+        <input type="submit" value="Sort" style="font-size: 0.8em; padding: 2px 6px; margin-left: 10px;">
     </form><br><br>
 
+     <h2>Books List</h2>
 
-    {% for book in books %}
-    <div ><br>
-    {% if book.cover_url %}
-        <img src="{{ book.cover_url }}" alt="Cover of {{ book.title }}"
-             style="height: 2em; width: auto; vertical-align: middle">
-        <strong>{{ book.title }}</strong>
-
-    {% endif %}
-
-    {% if book.author %} by {{ book.author.name }}{% endif %}
-   </div>
-    {% endfor %}
-
+{% for book in books %}
+    <div style="display: flex; align-items: center; margin-bottom: 1em;">
+        {% if book.cover_url %}
+            <img src="{{ book.cover_url }}" alt="Cover of {{ book.title }}"
+                 style="height: 2em; width: auto; margin-right: 10px">
+        {% endif %}
+        <div>
+            {{ book.title }}
+            {% if book.author %} by {{ book.author.name }}{% endif %}
+        </div>
+    </div>
+{% endfor %}
 {% endblock %}
